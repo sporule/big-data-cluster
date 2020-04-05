@@ -18,6 +18,7 @@ fi
 
 $HADOOP_PREFIX/bin/hdfs --config $HADOOP_CONF_DIR namenode
 $HADOOP_PREFIX/bin/yarn --config $HADOOP_CONF_DIR resourcemanager
+$HADOOP_PREFIX/bin/yarn --config $HADOOP_CONF_DIR historyserver
 
 #!/bin/bash
 

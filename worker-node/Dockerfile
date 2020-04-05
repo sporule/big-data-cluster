@@ -4,8 +4,7 @@ FROM sporule/big-data-cluster:hadoop-base-3.1.1
 LABEL  modification-from="https://github.com/big-data-europe/docker-hadoop"
 LABEL  maintainer = "Sporule <hao@sporule.com>"
 
-HEALTHCHECK CMD curl -f http://localhost:9864/ || exit 1
-HEALTHCHECK CMD curl -f http://localhost:8042/ || exit 1
+HEALTHCHECK CMD curl -f http://localhost:9864/ && curl -f http://localhost:8042/  || exit 1
 
 ENV HDFS_CONF_dfs_datanode_data_dir=file:///hadoop/dfs/data
 RUN mkdir -p /hadoop/dfs/data
