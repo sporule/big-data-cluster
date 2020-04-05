@@ -17,3 +17,14 @@ if [ "`ls -A $namedir`" == "" ]; then
 fi
 
 $HADOOP_PREFIX/bin/hdfs --config $HADOOP_CONF_DIR namenode
+$HADOOP_PREFIX/bin/yarn --config $HADOOP_CONF_DIR resourcemanager
+
+#!/bin/bash
+
+hadoop fs -mkdir       /tmp
+hadoop fs -mkdir -p    /user/hive/warehouse
+hadoop fs -chmod g+w   /tmp
+hadoop fs -chmod g+w   /user/hive/warehouse
+
+cd $HIVE_HOME/bin
+./hiveserver2 --hiveconf hive.server2.enable.doAs=false
