@@ -4,6 +4,8 @@ services:
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:3.1.0
     container_name: hive-postgresql
+    ports:
+      - 5432:5432
 
   master-node:
     image: sporule/big-data-cluster:master-node
