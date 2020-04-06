@@ -26,13 +26,13 @@ RUN apt-get update && apt-get install -y wget procps && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-ADD conf/hive-site.xml $HIVE_HOME/conf
-ADD conf/beeline-log4j2.properties $HIVE_HOME/conf
-ADD conf/hive-env.sh $HIVE_HOME/conf
-ADD conf/hive-exec-log4j2.properties $HIVE_HOME/conf
-ADD conf/hive-log4j2.properties $HIVE_HOME/conf
-ADD conf/ivysettings.xml $HIVE_HOME/conf
-ADD conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
+ADD hive-conf/hive-site.xml $HIVE_HOME/conf
+ADD hive-conf/beeline-log4j2.properties $HIVE_HOME/conf
+ADD hive-conf/hive-env.sh $HIVE_HOME/conf
+ADD hive-conf/hive-exec-log4j2.properties $HIVE_HOME/conf
+ADD hive-conf/hive-log4j2.properties $HIVE_HOME/conf
+ADD hive-conf/ivysettings.xml $HIVE_HOME/conf
+ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
