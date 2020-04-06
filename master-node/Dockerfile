@@ -43,6 +43,7 @@ ADD run.sh /run.sh
 RUN chmod a+x /run.sh
 
 EXPOSE 8188
+EXPOSE 9000
 EXPOSE 9870
 EXPOSE 8088
 EXPOSE 10000
