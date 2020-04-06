@@ -10,6 +10,7 @@ ENV HIVE_VERSION=$hive_version
 ENV HIVE_HOME /opt/hive
 ENV PATH $HIVE_HOME/bin:$PATH
 
+WORKDIR /opt
 RUN apt-get update && apt-get install -y wget procps && \
 	wget https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
@@ -28,10 +29,28 @@ ADD hive-conf/hive-log4j2.properties $HIVE_HOME/conf
 ADD hive-conf/ivysettings.xml $HIVE_HOME/conf
 ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
+WORKDIR /
+
+ARG spark_version=2.3.2
+ENV SPARK_VERSION=$spark_version
+
+RUN apt-get update \
+      && apt-get install -y wget \
+      && wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+      && apt-get --purge remove -y wget \
+      && tar -xvzf spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+      && mv spark-$SPARK_VERSION-bin-without-hadoop spark \
+      && rm spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+      && cd /
+
+ENV SPARK_HOME /spark/
+ADD hive-conf/hive-site.xml /spark/conf/
+COPY spark-env.sh /spark/conf/
+COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
+
+ENV PYTHONHASHSEED 1
+
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
-
-EXPOSE 10000
-EXPOSE 10002
 
 CMD ["/run.sh"]
