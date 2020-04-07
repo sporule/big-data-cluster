@@ -8,7 +8,7 @@ services:
       - 5432:5432
 
   master-node:
-    image: 62a3756ca546
+    image: sporule/big-data-cluster:master-node
     container_name: master-node
     ports:
       - 9870:9870
@@ -24,7 +24,7 @@ services:
       - ./hadoop.env
 
   worker-node01:
-    image: 3c06c31f1d81
+    image: sporule/big-data-cluster:worker-node
     container_name: worker-node01
     ports:
       - 8042:8042
@@ -35,7 +35,7 @@ services:
       - ./hadoop.env
 
   worker-node02:
-    image: 3c06c31f1d81
+    image: sporule/big-data-cluster:worker-node
     container_name: worker-node02
     ports:
       - 8043:8042

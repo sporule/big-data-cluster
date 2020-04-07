@@ -1,4 +1,4 @@
-FROM 20cd44d4523e
+FROM sporule/big-data-cluster:hadoop-base-3.1.1
 
 
 LABEL  modification-from="https://github.com/big-data-europe/docker-hadoop"
