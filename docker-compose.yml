@@ -8,9 +8,8 @@ services:
       - 5432:5432
 
   master-node:
-    image: de214de746e1
+    image: 62a3756ca546
     container_name: master-node
-    restart: always
     ports:
       - 9870:9870
       - 9000:9000
@@ -21,9 +20,36 @@ services:
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
       - hadoop_historyserver:/hadoop/yarn/timeline
-    environment:
-      SERVICE_PRECONDITION: "hive-metastore-postgresql:5432"
-    command: /opt/hive/bin/hive --service metastore
+    env_file:
+      - ./hadoop.env
+
+  worker-node01:
+    image: 3c06c31f1d81
+    container_name: worker-node01
+    ports:
+      - 8042:8042
+      - 9864:9864
+    volumes:
+      - worker-node01:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+
+  worker-node02:
+    image: 3c06c31f1d81
+    container_name: worker-node02
+    ports:
+      - 8043:8042
+      - 9865:9864
+    volumes:
+      - worker-node02:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+
+  dev-node01:
+    image: sporule/big-data-cluster:dev-node
+    container_name: dev-node01
+    volumes:
+      - dev-node01:/workspace
     env_file:
       - ./hadoop.env
 
@@ -35,4 +61,4 @@ volumes:
   hadoop_historyserver:
 networks:
   default:
-    name: datahub2
+    name: cluster

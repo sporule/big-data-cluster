@@ -13,19 +13,71 @@ fi
 
 if [ "`ls -A $namedir`" == "" ]; then
   echo "Formatting namenode name directory: $namedir"
-  $HADOOP_PREFIX/bin/hdfs --config $HADOOP_CONF_DIR namenode -format $CLUSTER_NAME 
+  $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode -format $CLUSTER_NAME 
 fi
 
-$HADOOP_PREFIX/bin/hdfs --config $HADOOP_CONF_DIR namenode
-$HADOOP_PREFIX/bin/yarn --config $HADOOP_CONF_DIR resourcemanager
-$HADOOP_PREFIX/bin/yarn --config $HADOOP_CONF_DIR historyserver
+function wait_for_it()
+{
+    local serviceport=$1
+    local service=${serviceport%%:*}
+    local port=${serviceport#*:}
+    local retry_seconds=5
+    local max_try=100
+    let i=1
 
-#!/bin/bash
+    nc -z $service $port
+    result=$?
 
+    until [ $result -eq 0 ]; do
+      echo "[$i/$max_try] check for ${service}:${port}..."
+      echo "[$i/$max_try] ${service}:${port} is not available yet"
+      if (( $i == $max_try )); then
+        echo "[$i/$max_try] ${service}:${port} is still not available; giving up after ${max_try} tries. :/"
+        exit 1
+      fi
+      
+      echo "[$i/$max_try] try in ${retry_seconds}s once again ..."
+      let "i++"
+      sleep $retry_seconds
+
+      nc -z $service $port
+      result=$?
+    done
+    echo "[$i/$max_try] $service:${port} is available."
+}
+
+function check_precondition(){
+  for i in $@
+  do
+        wait_for_it ${i}
+  done
+}
+
+
+
+echo "starting namenode"
+$HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode &
+
+echo "starting resource manager"
+check_precondition $RESOURCE_MANAGER_PRECONDITION
+$HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR resourcemanager &
+
+
+echo "starting history server"
+check_precondition $HISTORY_SERVER_PRECONDITION
+$HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR historyserver &
+
+echo "starting hive metastore"
+check_precondition $HIVE_METASTORE_PRECONDITION
+/opt/hive/bin/hive --service metastore &
+
+echo "starting hive server 2"
 hadoop fs -mkdir       /tmp
 hadoop fs -mkdir -p    /user/hive/warehouse
 hadoop fs -chmod g+w   /tmp
 hadoop fs -chmod g+w   /user/hive/warehouse
-
+check_precondition $HIVE_SERVER_PRECONDITION
 cd $HIVE_HOME/bin
-./hiveserver2 --hiveconf hive.server2.enable.doAs=false
+./hiveserver2 --hiveconf hive.server2.enable.doAs=false &
+
+tail -f /dev/null

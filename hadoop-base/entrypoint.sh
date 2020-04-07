@@ -14,21 +14,23 @@ function addProperty() {
 }
 
 function configure() {
-    local path=$1
-    local module=$2
-    local envPrefix=$3
+    if test -f "$1"; then
+        local path=$1
+        local module=$2
+        local envPrefix=$3
 
-    local var
-    local value
-    
-    echo "Configuring $module"
-    for c in `printenv | perl -sne 'print "$1 " if m/^${envPrefix}_(.+?)=.*/' -- -envPrefix=$envPrefix`; do 
-        name=`echo ${c} | perl -pe 's/___/-/g; s/__/_/g; s/_/./g'`
-        var="${envPrefix}_${c}"
-        value=${!var}
-        echo " - Setting $name=$value"
-        addProperty $path $name "$value"
-    done
+        local var
+        local value
+        
+        echo "Configuring $module"
+        for c in `printenv | perl -sne 'print "$1 " if m/^${envPrefix}_(.+?)=.*/' -- -envPrefix=$envPrefix`; do 
+            name=`echo ${c} | perl -pe 's/___/-/g; s/__/_/g; s/_/./g'`
+            var="${envPrefix}_${c}"
+            value=${!var}
+            echo " - Setting $name=$value"
+            addProperty $path $name "$value"
+        done
+    fi
 }
 
 configure /etc/hadoop/core-site.xml core CORE_CONF
