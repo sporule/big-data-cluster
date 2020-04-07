@@ -48,6 +48,8 @@ services:
   dev-node01:
     image: sporule/big-data-cluster:dev-node
     container_name: dev-node01
+    ports:
+      - "10022:22"
     volumes:
       - dev-node01:/workspace
     env_file:
