@@ -57,14 +57,14 @@ function check_precondition(){
 
 echo "starting namenode"
 (while true; do 
-    $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode &
+    $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode 
 done) &
 
 echo "starting resource manager"
 
 (while true; do 
     check_precondition $RESOURCE_MANAGER_PRECONDITION
-    $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR resourcemanager &
+    $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR resourcemanager
 done) &
 
 
@@ -73,7 +73,7 @@ done) &
 echo "starting history server"
 (while true; do 
   check_precondition $HISTORY_SERVER_PRECONDITION
-  $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR historyserver &
+  $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR historyserver
 done) &
 
 
