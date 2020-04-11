@@ -9,7 +9,7 @@ echo "export HIVE_HOME=$HIVE_HOME" >> "/root/.profile"
 echo "export HIVE_VERSION=$HIVE_VERSION" >> "/root/.profile"
 
 
-if [ "$AIRFLOW" = 1 ]; then (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
+if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
 
 service ssh restart && bash
 

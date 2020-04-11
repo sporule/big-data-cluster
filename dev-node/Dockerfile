@@ -53,7 +53,7 @@ RUN apt-get install -y wget  \
 ENV PYTHONHASHSEED 1
 
 # Set up Airflow
-RUN if [ "$AIRFLOW" = 1 ]; then export AIRFLOW_HOME=~/airflow; pip install apache-airflow ;airflow initdb; fi
+RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
 
 # Set up environment variable
 ENV SPARK_HOME /spark/
@@ -71,7 +71,8 @@ COPY .ssh/ /root/.ssh/
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
 EXPOSE 22
+EXPOSE 8080
 
-WORKDIR /workspace
+WORKDIR /root
 
 CMD ["/run.sh"]
