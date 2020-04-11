@@ -29,7 +29,7 @@ ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 WORKDIR /
 
 
-RUN  apt-get update && apt-get install python3 python-dev python3-dev \
+RUN  apt-get update && apt-get install -y python3 python-dev python3-dev \
      build-essential libssl-dev libffi-dev \
      libxml2-dev libxslt1-dev zlib1g-dev \
      python-pip
@@ -53,8 +53,7 @@ RUN apt-get install -y wget  \
 ENV PYTHONHASHSEED 1
 
 # Set up Airflow
-ARG airflow=0
-RUN if [ "$airflow" = 1 ]; then export AIRFLOW_HOME=~/airflow; pip install apache-airflow ;airflow initdb; fi
+RUN if [ "$AIRFLOW" = 1 ]; then export AIRFLOW_HOME=~/airflow; pip install apache-airflow ;airflow initdb; fi
 
 # Set up environment variable
 ENV SPARK_HOME /spark/
