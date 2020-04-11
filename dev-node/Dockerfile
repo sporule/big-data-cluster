@@ -4,7 +4,7 @@ FROM sporule/big-data-cluster:hadoop-base-3.1.1
 LABEL  modification-from="https://github.com/big-data-europe/docker-hadoop"
 LABEL  maintainer = "Sporule <hao@sporule.com>"
 
-
+# Setup Hive
 ARG hive_version=3.1.0
 ENV HIVE_VERSION=$hive_version
 ENV HIVE_HOME /opt/hive
@@ -28,10 +28,18 @@ ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
 WORKDIR /
 
+
+RUN  apt-get update && apt-get install python3 python-dev python3-dev \
+     build-essential libssl-dev libffi-dev \
+     libxml2-dev libxslt1-dev zlib1g-dev \
+     python-pip
+
+
+# Set up Spark
 ARG spark_version=2.3.2
 ENV SPARK_VERSION=$spark_version
 
-RUN apt-get update && apt-get install -y wget  \
+RUN apt-get install -y wget  \
 	&& wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
 	&& apt-get --purge remove -y wget \
 	&& tar -xvzf spark-$SPARK_VERSION-bin-without-hadoop.tgz \
@@ -42,14 +50,19 @@ RUN apt-get update && apt-get install -y wget  \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
+ENV PYTHONHASHSEED 1
+
+# Set up Airflow
+ARG airflow=0
+RUN if [ "$airflow" = 1 ]; then export AIRFLOW_HOME=~/airflow; pip install apache-airflow ;airflow initdb; fi
+
+# Set up environment variable
 ENV SPARK_HOME /spark/
 ADD hive-conf/hive-site.xml /spark/conf/
 COPY spark-env.sh /spark/conf/
 COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
 ENV PATH $SPARK_HOME/bin:$PATH
 
-
-ENV PYTHONHASHSEED 1
 
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh

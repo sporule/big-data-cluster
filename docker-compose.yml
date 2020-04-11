@@ -50,8 +50,11 @@ services:
     container_name: dev-node01
     ports:
       - "10022:22"
+      - "10080:8080"
     volumes:
-      - dev-node01:/workspace
+      - dev-node01:/root/
+    environment:
+        - AIRFLOW=1
     env_file:
       - ./hadoop.env
 
