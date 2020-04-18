@@ -8,9 +8,10 @@ echo "export HADOOP_CONF_DIR=$HADOOP_CONF_DIR" >> "/root/.profile"
 echo "export HIVE_HOME=$HIVE_HOME" >> "/root/.profile"
 echo "export HIVE_VERSION=$HIVE_VERSION" >> "/root/.profile"
 
-
+# Run Airflow if it is enabled
 if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
 
+# Start SSH
 service ssh restart && bash
 
 tail -f /dev/null

@@ -1,25 +1,31 @@
 FROM sporule/big-data-cluster:hadoop-base-3.1.1
 
 
-LABEL  modification-from="https://github.com/big-data-europe/docker-hadoop"
+LABEL  credit="https://github.com/big-data-europe/docker-hadoop"
 LABEL  maintainer = "Sporule <hao@sporule.com>"
 
-HEALTHCHECK CMD curl -f http://localhost:9870/ && curl -f http://localhost:8088/  && curl -f http://localhost:8188/ || exit 1
-
-ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name
-RUN mkdir -p /hadoop/dfs/name
-VOLUME /hadoop/dfs/name
-
-ENV YARN_CONF_yarn_timeline___service_leveldb___timeline___store_path=/hadoop/yarn/timeline
-RUN mkdir -p /hadoop/yarn/timeline
-VOLUME /hadoop/yarn/timeline
-
+# Set up environment variables
 
 ARG hive_version=3.1.0
 ENV HIVE_VERSION=$hive_version
 ENV HIVE_HOME /opt/hive
 ENV PATH $HIVE_HOME/bin:$PATH
 
+
+# Making sure services are not running
+HEALTHCHECK CMD curl -f http://localhost:9870/ && curl -f http://localhost:8088/  && curl -f http://localhost:8188/ || exit 1
+
+# Set up Name Node
+ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name
+RUN mkdir -p /hadoop/dfs/name
+VOLUME /hadoop/dfs/name
+
+# Set up Yarn
+ENV YARN_CONF_yarn_timeline___service_leveldb___timeline___store_path=/hadoop/yarn/timeline
+RUN mkdir -p /hadoop/yarn/timeline
+VOLUME /hadoop/yarn/timeline
+
+# Set up Hive
 WORKDIR /opt
 RUN apt-get update && apt-get install -y wget procps && \
 	wget https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
@@ -39,9 +45,8 @@ ADD hive-conf/hive-log4j2.properties $HIVE_HOME/conf
 ADD hive-conf/ivysettings.xml $HIVE_HOME/conf
 ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
-ADD run.sh /run.sh
-RUN chmod a+x /run.sh
 
+# Expose ports
 EXPOSE 8188
 EXPOSE 9000
 EXPOSE 9870
@@ -49,4 +54,8 @@ EXPOSE 8088
 EXPOSE 10000
 EXPOSE 10002
 
+
+# Setup Config and starting services
+ADD run.sh /run.sh
+RUN chmod a+x /run.sh
 CMD ["/run.sh"]

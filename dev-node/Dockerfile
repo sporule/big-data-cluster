@@ -1,7 +1,7 @@
 FROM sporule/big-data-cluster:hadoop-base-3.1.1
 
 
-LABEL  modification-from="https://github.com/big-data-europe/docker-hadoop"
+LABEL  credit="https://github.com/big-data-europe/docker-hadoop"
 LABEL  maintainer = "Sporule <hao@sporule.com>"
 
 # Setup Hive
@@ -26,14 +26,17 @@ ADD hive-conf/hive-log4j2.properties $HIVE_HOME/conf
 ADD hive-conf/ivysettings.xml $HIVE_HOME/conf
 ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
+
+# Install Python3 Build Environment
+
 WORKDIR /
+RUN apt-get install -y python3 python-dev python3-dev \
+	build-essential libssl-dev libffi-dev \
+	libxml2-dev libxslt1-dev zlib1g-dev \
+	python-pip
 
-
-RUN  apt-get update && apt-get install -y python3 python-dev python3-dev \
-     build-essential libssl-dev libffi-dev \
-     libxml2-dev libxslt1-dev zlib1g-dev \
-     python-pip
-
+# Set up Airflow
+RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
 
 # Set up Spark
 ARG spark_version=2.3.2
@@ -52,9 +55,6 @@ RUN apt-get install -y wget  \
 
 ENV PYTHONHASHSEED 1
 
-# Set up Airflow
-RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
-
 # Set up environment variable
 ENV SPARK_HOME /spark/
 ADD hive-conf/hive-site.xml /spark/conf/
@@ -63,16 +63,18 @@ COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
 ENV PATH $SPARK_HOME/bin:$PATH
 
 
-ADD run.sh /run.sh
-RUN chmod a+x /run.sh
-
-# Add SSH
+# Set up SSH
 COPY .ssh/ /root/.ssh/
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
+# Set up initial folder
+WORKDIR /root
+
+# Expose SSH Port and Airflow Port
 EXPOSE 22
 EXPOSE 8080
 
-WORKDIR /root
-
+# Set up Configuration and Start Services
+ADD run.sh /run.sh
+RUN chmod a+x /run.sh
 CMD ["/run.sh"]
