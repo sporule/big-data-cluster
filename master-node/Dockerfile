@@ -44,19 +44,42 @@ ADD hive-conf/ivysettings.xml $HIVE_HOME/conf
 ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
 
-
 # Install Python3 Build Environment
 
 WORKDIR /
 RUN apt-get install -y python3 python-dev python3-dev \
 	build-essential libssl-dev libffi-dev \
 	libxml2-dev libxslt1-dev zlib1g-dev \
-	python-pip 	&&\
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+	python-pip
 
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
+
+
+
+# Set up Spark
+ARG spark_version=2.3.2
+ENV SPARK_VERSION=$spark_version
+
+RUN apt-get install -y wget  \
+	&& wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+	&& apt-get --purge remove -y wget \
+	&& tar -xvzf spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+	&& mv spark-$SPARK_VERSION-bin-without-hadoop spark \
+	&& rm spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+	&& cd / \
+	&& 	apt-get --purge remove -y wget && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONHASHSEED 1
+
+# Set up environment variable
+ENV SPARK_HOME /spark/
+ADD hive-conf/hive-site.xml /spark/conf/
+COPY spark-env.sh /spark/conf/
+COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
+ENV PATH $SPARK_HOME/bin:$PATH
 
 # Expose ports
 EXPOSE 8188
