@@ -89,4 +89,7 @@ check_precondition $HIVE_SERVER_PRECONDITION
 cd $HIVE_HOME/bin
 ./hiveserver2 --hiveconf hive.server2.enable.doAs=false &
 
+# Run Airflow if it is enabled
+if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
+
 tail -f /dev/null

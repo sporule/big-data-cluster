@@ -20,6 +20,9 @@ services:
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
       - hadoop_historyserver:/hadoop/yarn/timeline
+      - landing_zone:/landing_zone/
+    environment:
+      - AIRFLOW=1
     env_file:
       - ./hadoop.env
 
@@ -53,6 +56,7 @@ services:
       - "10080:8080"
     volumes:
       - dev-node01:/root/
+      - landing_zone:/landing_zone/
     environment:
         - AIRFLOW=1
     env_file:

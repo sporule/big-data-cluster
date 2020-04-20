@@ -46,6 +46,18 @@ ADD hive-conf/ivysettings.xml $HIVE_HOME/conf
 ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
 
+
+# Install Python3 Build Environment
+
+WORKDIR /
+RUN apt-get install -y python3 python-dev python3-dev \
+	build-essential libssl-dev libffi-dev \
+	libxml2-dev libxslt1-dev zlib1g-dev \
+	python-pip
+
+# Set up Airflow
+RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
+
 # Expose ports
 EXPOSE 8188
 EXPOSE 9000
