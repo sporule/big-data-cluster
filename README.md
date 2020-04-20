@@ -51,7 +51,7 @@ You can run individual container by using Docker command, please find more infor
 | Apache TEZ       | 0.9.1   |          |                   |
 | Apache Zeppelin  | 0.8.0   |          |                   |
 | Apache ZooKeeper | 3.4.6   |          |                   |
-| Apache Airflow   | latest  | Y        | Dev               |
+| Apache Airflow   | latest  | Y        | Master, Dev       |
 
 ### Containers in Docker-Compose
 
