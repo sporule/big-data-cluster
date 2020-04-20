@@ -33,9 +33,7 @@ RUN apt-get update && apt-get install -y wget procps && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
 	wget https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar -O $HIVE_HOME/lib/postgresql-jdbc.jar && \
 	rm apache-hive-$HIVE_VERSION-bin.tar.gz && \
-	apt-get --purge remove -y wget && \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+	apt-get --purge remove -y wget
 
 ADD hive-conf/hive-site.xml $HIVE_HOME/conf
 ADD hive-conf/beeline-log4j2.properties $HIVE_HOME/conf
@@ -53,7 +51,9 @@ WORKDIR /
 RUN apt-get install -y python3 python-dev python3-dev \
 	build-essential libssl-dev libffi-dev \
 	libxml2-dev libxslt1-dev zlib1g-dev \
-	python-pip
+	python-pip 	&&\
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
