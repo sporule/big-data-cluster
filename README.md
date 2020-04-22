@@ -2,13 +2,27 @@
 
 This is the Hadoop image based on the [BDE's Hadoop Base](https://github.com/big-data-europe/docker-hadoop) and its relevant forks.
 
-I have modified some images and added some new features. You may find more information on [Sporule Blog](https://www.sporule.com) .
+This docker image is for development purpose, you should not use it for production without updating the configuration. I have modified some images and added some new features. 
+You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
-- 18/04/2020: Updated Readme documentation
-- 10/04/2020: Added Dev Node with Airflow
-- 02/04/2020: Added Master Node and Worker Node with Hive
+### 22/04/2020
+
+- Added Single Node Zookeeper to Master Node
+- Added Airflow to Master Node
+
+### 18/04/2020
+
+- Updated Readme documentation
+
+### 10/04/2020
+
+- Added Dev Node with Airflow
+
+### 02/04/2020
+
+- Added Master Node and Worker Node with Hive
 
 ## Quick Start
 
@@ -50,7 +64,7 @@ You can run individual container by using Docker command, please find more infor
 | Apache Storm     | 1.2.1   |          |                   |
 | Apache TEZ       | 0.9.1   |          |                   |
 | Apache Zeppelin  | 0.8.0   |          |                   |
-| Apache ZooKeeper | 3.4.6   |          |                   |
+| Apache ZooKeeper | 3.4.6   | Y        | Master            |
 | Apache Airflow   | latest  | Y        | Master, Dev       |
 
 ### Containers in Docker-Compose
@@ -94,6 +108,7 @@ The available configurations are:
 
 You can turn on or off some applications by using environment variables, **0** means on and **1** means off. You can update the environment variable in the **hadoop.env** file or inject it while starting the containers (through Docker command or docker-compose.yml). However, it is good to note that **hadoop.env** will have lower priority. current supported applications are:
 
-| Name    | Environment Variable | Default |
-| ------- | -------------------- | ------- |
-| Airflow | AIRFLOW              | 0       |
+| Name      | Environment Variable | Default |
+| --------- | -------------------- | ------- |
+| Airflow   | AIRFLOW              | 0       |
+| Zookeeper | ZOOKEEPER            | 0       |

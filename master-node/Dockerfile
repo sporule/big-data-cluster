@@ -32,8 +32,7 @@ RUN apt-get update && apt-get install -y wget procps && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
 	wget https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar -O $HIVE_HOME/lib/postgresql-jdbc.jar && \
-	rm apache-hive-$HIVE_VERSION-bin.tar.gz && \
-	apt-get --purge remove -y wget
+	rm apache-hive-$HIVE_VERSION-bin.tar.gz
 
 ADD hive-conf/hive-site.xml $HIVE_HOME/conf
 ADD hive-conf/beeline-log4j2.properties $HIVE_HOME/conf
@@ -54,23 +53,18 @@ RUN apt-get install -y python3 python-dev python3-dev \
 
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
-
+RUN mkdir -p /landing_zone
 
 
 # Set up Spark
 ARG spark_version=2.3.2
 ENV SPARK_VERSION=$spark_version
 
-RUN apt-get install -y wget  \
-	&& wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
-	&& apt-get --purge remove -y wget \
+RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
 	&& tar -xvzf spark-$SPARK_VERSION-bin-without-hadoop.tgz \
 	&& mv spark-$SPARK_VERSION-bin-without-hadoop spark \
-	&& rm spark-$SPARK_VERSION-bin-without-hadoop.tgz \
-	&& cd / \
-	&& 	apt-get --purge remove -y wget && \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+	&& rm spark-$SPARK_VERSION-bin-without-hadoop.tgz
+
 
 ENV PYTHONHASHSEED 1
 
@@ -81,6 +75,26 @@ COPY spark-env.sh /spark/conf/
 COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
 ENV PATH $SPARK_HOME/bin:$PATH
 
+
+# Set up ZooKeeper
+
+ARG zookeeper_version=3.4.6
+ENV ZOOKEEPER_VERSION=$zookeeper_version
+
+RUN wget https://archive.apache.org/dist/zookeeper/zookeeper-$ZOOKEEPER_VERSION/zookeeper-$ZOOKEEPER_VERSION.tar.gz \
+	&& tar -xvzf zookeeper-$ZOOKEEPER_VERSION.tar.gz \
+  && mv zookeeper-$ZOOKEEPER_VERSION zookeeper \
+  && rm zookeeper-$ZOOKEEPER_VERSION.tar.gz \
+  && mkdir /root/zookeeper
+
+COPY zookeeper-conf/zoo.cfg /zookeeper/conf 
+
+
+# Clean Packages
+RUN	apt-get --purge remove -y wget && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
+
 # Expose ports
 EXPOSE 8188
 EXPOSE 9000
@@ -89,6 +103,7 @@ EXPOSE 8080
 EXPOSE 8088
 EXPOSE 10000
 EXPOSE 10002
+EXPOSE 2181
 
 
 # Setup Config and starting services

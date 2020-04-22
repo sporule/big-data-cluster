@@ -100,4 +100,7 @@ echo "export HIVE_VERSION=$HIVE_VERSION" >> "/root/.profile"
 # Run Airflow if it is enabled
 if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
 
+# Run ZooKeeper if it is enabled
+if [ "$ZOOKEEPER" = "1" ]; then (/zookeeper/bin/zkServer.sh &) ; fi
+
 tail -f /dev/null
