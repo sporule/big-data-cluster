@@ -83,18 +83,27 @@ ENV ZOOKEEPER_VERSION=$zookeeper_version
 
 RUN wget https://archive.apache.org/dist/zookeeper/zookeeper-$ZOOKEEPER_VERSION/zookeeper-$ZOOKEEPER_VERSION.tar.gz \
 	&& tar -xvzf zookeeper-$ZOOKEEPER_VERSION.tar.gz \
-  && mv zookeeper-$ZOOKEEPER_VERSION zookeeper \
+  && mv zookeeper-$ZOOKEEPER_VERSION /zookeeper \
   && rm zookeeper-$ZOOKEEPER_VERSION.tar.gz \
   && mkdir /root/zookeeper
 
 COPY zookeeper-conf/zoo.cfg /zookeeper/conf 
+
+# Set up Kafka
+
+ARG kafka_version=2.0.0
+ENV KAFKA_VERSION=$kafka_version
+
+RUN wget https://archive.apache.org/dist/kafka/$KAFKA_VERSION/kafka_2.12-$KAFKA_VERSION.tgz \
+	&& tar -xvzf kafka_2.12-$KAFKA_VERSION.tgz \
+	&& mv kafka_2.12-$KAFKA_VERSION /kafka \
+	&& rm kafka_2.12-$KAFKA_VERSION.tgz
 
 
 # Clean Packages
 RUN	apt-get --purge remove -y wget && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
-
 # Expose ports
 EXPOSE 8188
 EXPOSE 9000
@@ -104,6 +113,7 @@ EXPOSE 8088
 EXPOSE 10000
 EXPOSE 10002
 EXPOSE 2181
+EXPOSE 9092
 
 
 # Setup Config and starting services

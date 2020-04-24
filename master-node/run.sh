@@ -97,10 +97,16 @@ echo "export HADOOP_CONF_DIR=$HADOOP_CONF_DIR" >> "/root/.profile"
 echo "export HIVE_HOME=$HIVE_HOME" >> "/root/.profile"
 echo "export HIVE_VERSION=$HIVE_VERSION" >> "/root/.profile"
 
-# Run Airflow if it is enabled
-if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
+# # Run Airflow if it is enabled
+# if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
 
+echo "starting zookeeper"
 # Run ZooKeeper if it is enabled
-if [ "$ZOOKEEPER" = "1" ]; then (/zookeeper/bin/zkServer.sh &) ; fi
+if [ "$ZOOKEEPER" = "1" ]; then (/zookeeper/bin/zkServer.sh start &) ; fi
+
+echo "starting kafka"
+check_precondition $KAFKA_PRECONDITION
+# Run Kafka if it is enabled
+if [ "$KAFKA" = "1" ]; then (/kafka/bin/kafka-server-start.sh /kafka/config/server.properties &) ; fi
 
 tail -f /dev/null

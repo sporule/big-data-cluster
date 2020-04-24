@@ -14,11 +14,12 @@ services:
       - 9870:9870
       - 9000:9000
       - 8188:8188
-      - 8088:8088
+      - 10086:10086
       - 9080:8080
       - 10000:10000
       - 10002:10002
       - 2181:2181
+      - 9092:9092
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
       - hadoop_historyserver:/hadoop/yarn/timeline
@@ -27,6 +28,7 @@ services:
     environment:
       - AIRFLOW=1
       - ZOOKEEPER=1
+      - KAFKA=1
     env_file:
       - ./hadoop.env
 

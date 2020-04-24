@@ -52,7 +52,7 @@ You can run individual container by using Docker command, please find more infor
 | Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev |
 | Apache HBase     | 2.0.2   |          |                   |
 | Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |
-| Apache Kafka     | 2.0.0   |          |                   |
+| Apache Kafka     | 2.0.0   | Y        | Master            |
 | Apache Knox      | 1.0.0   |          |                   |
 | Apache Livy      | 0.5.0   |          |                   |
 | Apache Oozie     | 4.3.1   |          |                   |
@@ -112,3 +112,4 @@ You can turn on or off some applications by using environment variables, **0** m
 | --------- | -------------------- | ------- |
 | Airflow   | AIRFLOW              | 0       |
 | Zookeeper | ZOOKEEPER            | 0       |
+| Kafka     | KAFKA                | 0       |
