@@ -7,6 +7,10 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+### 24/04/2020
+
+- Updated default port from 8088 to 10086 to avoid scanning attack
+
 ### 22/04/2020
 
 - Added Single Node Zookeeper to Master Node
