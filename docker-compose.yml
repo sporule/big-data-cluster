@@ -74,7 +74,7 @@ services:
     container_name: dev-node01
     ports:
       - "10022:22"
-      - "10080:8080"
+      - 10080:8080
     volumes:
       - dev-node01_root:/root/
       - landing_zone:/landing_zone/

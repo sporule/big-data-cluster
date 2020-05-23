@@ -105,8 +105,7 @@ echo "starting zookeeper"
 if [ "$ZOOKEEPER" = "1" ]; then (/zookeeper/bin/zkServer.sh start &) ; fi
 
 echo "starting kafka"
-check_precondition $KAFKA_PRECONDITION
 # Run Kafka if it is enabled
-if [ "$KAFKA" = "1" ]; then (/kafka/bin/kafka-server-start.sh /kafka/config/server.properties &) ; fi
+if [ "$KAFKA" = "1" ]; then check_precondition $KAFKA_PRECONDITION ; (/kafka/bin/kafka-server-start.sh /kafka/config/server.properties &) ; fi
 
 tail -f /dev/null
