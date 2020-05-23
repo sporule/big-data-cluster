@@ -1,16 +1,20 @@
-version: "3.5"
+version: "2"
 
 services:
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:3.1.0
+    mem_limit: 256m
     container_name: hive-postgresql
     ports:
       - 5432:5432
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - cluster
 
   master-node:
     image: sporule/big-data-cluster:master-node
+    mem_limit: 4096m
     container_name: master-node
     ports:
       - 9870:9870
@@ -28,14 +32,17 @@ services:
       - landing_zone:/landing_zone
       - master_node_root:/root/
     environment:
-      - AIRFLOW=1
-      - ZOOKEEPER=1
-      - KAFKA=1
+      - AIRFLOW=0
+      - ZOOKEEPER=0
+      - KAFKA=0
     env_file:
       - ./hadoop.env
+    networks:
+      - cluster
 
   worker-node01:
     image: sporule/big-data-cluster:worker-node
+    mem_limit: 4096m
     container_name: worker-node01
     ports:
       - 8042:8042
@@ -44,9 +51,12 @@ services:
       - worker-node01:/hadoop/dfs/data
     env_file:
       - ./hadoop.env
+    networks:
+      - cluster    
 
   worker-node02:
     image: sporule/big-data-cluster:worker-node
+    mem_limit: 4096m
     container_name: worker-node02
     ports:
       - 8043:8042
@@ -55,9 +65,12 @@ services:
       - worker-node02:/hadoop/dfs/data
     env_file:
       - ./hadoop.env
+    networks:
+      - cluster
 
   dev-node01:
     image: sporule/big-data-cluster:dev-node
+    mem_limit: 2048m
     container_name: dev-node01
     ports:
       - "10022:22"
@@ -66,9 +79,11 @@ services:
       - dev-node01_root:/root/
       - landing_zone:/landing_zone/
     environment:
-        - AIRFLOW=1
+        - AIRFLOW=0
     env_file:
       - ./hadoop.env
+    networks:
+      - cluster
 
 volumes:
   postgres:
@@ -80,5 +95,4 @@ volumes:
   dev-node01_root:
   hadoop_historyserver:
 networks:
-  default:
-    name: cluster
+  cluster:
