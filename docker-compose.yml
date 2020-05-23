@@ -6,6 +6,8 @@ services:
     container_name: hive-postgresql
     ports:
       - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   master-node:
     image: sporule/big-data-cluster:master-node
@@ -69,6 +71,7 @@ services:
       - ./hadoop.env
 
 volumes:
+  postgres:
   master_node_root:
   hadoop_namenode:
   worker-node01:

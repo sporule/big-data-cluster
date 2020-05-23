@@ -30,10 +30,10 @@ ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 # Install Python3 Build Environment
 
 WORKDIR /
-RUN apt-get install -y python3 python-dev python3-dev \
+RUN apt-get install -y python3 python-dev python3-dev python3-venv\
 	build-essential libssl-dev libffi-dev \
 	libxml2-dev libxslt1-dev zlib1g-dev \
-	python-pip
+	python-pip python3-pip
 
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
