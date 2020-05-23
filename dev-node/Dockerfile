@@ -57,7 +57,6 @@ ENV PYTHONHASHSEED 1
 
 # Set up environment variable
 ENV SPARK_HOME /spark
-ADD hive-conf/hive-site.xml /spark/conf/
 COPY spark-env.sh /spark/conf/
 COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
 ENV PATH $SPARK_HOME/bin:$PATH
