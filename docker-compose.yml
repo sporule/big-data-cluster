@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 
 services:
   hive-metastore-postgresql:
@@ -96,3 +96,4 @@ volumes:
   hadoop_historyserver:
 networks:
   cluster:
+    name: cluster
