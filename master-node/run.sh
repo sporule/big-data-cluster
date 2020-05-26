@@ -75,6 +75,13 @@ echo "starting history server"
   $HADOOP_HOME/bin/yarn --config $HADOOP_CONF_DIR historyserver
 done) &
 
+echo "setting up HDFS folders"
+hadoop fs -mkdir       /tmp
+hadoop fs -mkdir -p    /user/hive/warehouse
+hadoop fs -chmod g+w   /tmp
+hadoop fs -chmod g+w   /user/hive/warehouse
+hadoop fs -mkdir       /spark-logs
+hadoop fs -chmod g+w   /spark-logs
 
 echo "starting hive metastore"
 check_precondition $HIVE_METASTORE_PRECONDITION
