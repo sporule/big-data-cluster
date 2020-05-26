@@ -26,6 +26,7 @@ services:
       - 10002:10002
       - 2181:2181
       - 9092:9092
+      - 9999:9999
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
       - hadoop_historyserver:/hadoop/yarn/timeline
@@ -69,7 +70,7 @@ services:
       - cluster
 
   dev-node01:
-    image: 80c0b5157b8a
+    image: sporule/big-data-cluster:dev-node
     mem_limit: 2048m
     container_name: dev-node01
     ports:

@@ -98,6 +98,13 @@ RUN wget https://archive.apache.org/dist/kafka/$KAFKA_VERSION/kafka_2.12-$KAFKA_
 	&& mv kafka_2.12-$KAFKA_VERSION /kafka \
 	&& rm kafka_2.12-$KAFKA_VERSION.tgz
 
+# Set up some hdfs folder
+RUN hadoop fs -mkdir       /tmp \
+	&& hadoop fs -mkdir -p    /user/hive/warehouse \
+	&& hadoop fs -chmod g+w   /tmp \
+	&& hadoop fs -chmod g+w   /user/hive/warehouse \
+	&& hadoop fs -mkdir       /spark-logs \
+	&& hadoop fs -chmod g+w   /spark-logs
 
 # Clean Packages
 RUN	apt-get --purge remove -y wget && \

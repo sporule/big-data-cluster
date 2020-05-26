@@ -81,13 +81,12 @@ check_precondition $HIVE_METASTORE_PRECONDITION
 /opt/hive/bin/hive --service metastore &
 
 echo "starting hive server 2"
-hadoop fs -mkdir       /tmp
-hadoop fs -mkdir -p    /user/hive/warehouse
-hadoop fs -chmod g+w   /tmp
-hadoop fs -chmod g+w   /user/hive/warehouse
 check_precondition $HIVE_SERVER_PRECONDITION
 cd $HIVE_HOME/bin
 ./hiveserver2 --hiveconf hive.server2.enable.doAs=false &
+
+echo "starting spark web ui server"
+
 
 echo "export PATH=$PATH" >> "/root/.profile"
 echo "export JAVA_HOME=$JAVA_HOME" >> "/root/.profile"
