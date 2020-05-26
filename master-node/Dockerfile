@@ -57,24 +57,23 @@ RUN mkdir -p /landing_zone
 
 
 # Set up Spark
-ARG spark_version=2.3.2
+ARG spark_version=2.4.5
 ENV SPARK_VERSION=$spark_version
 
-RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
-	&& tar -xvzf spark-$SPARK_VERSION-bin-without-hadoop.tgz \
-	&& mv spark-$SPARK_VERSION-bin-without-hadoop spark \
-	&& rm spark-$SPARK_VERSION-bin-without-hadoop.tgz
+RUN wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
+	&& tar -xvzf spark-$SPARK_VERSION.tgz \
+	&& mv spark-$SPARK_VERSION spark \
+	&& rm spark-$SPARK_VERSION.tgz \
+	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn
 
 
 ENV PYTHONHASHSEED 1
 
 # Set up environment variable
-ENV SPARK_HOME /spark/
-ADD hive-conf/hive-site.xml /spark/conf/
+ENV SPARK_HOME /spark
 COPY spark-env.sh /spark/conf/
+COPY spark-defaults.conf /spark/conf/
 COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
-ENV PATH $SPARK_HOME/bin:$PATH
-
 
 # Set up ZooKeeper
 

@@ -39,15 +39,15 @@ RUN apt-get install -y python3 python-dev python3-dev python3-venv\
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
 
 # Set up Spark
-ARG spark_version=2.3.2
+ARG spark_version=2.4.5
 ENV SPARK_VERSION=$spark_version
 
 RUN apt-get install -y wget  \
-	&& wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz \
-	&& apt-get --purge remove -y wget \
-	&& tar -xvzf spark-$SPARK_VERSION-bin-without-hadoop.tgz \
-	&& mv spark-$SPARK_VERSION-bin-without-hadoop spark \
-	&& rm spark-$SPARK_VERSION-bin-without-hadoop.tgz \
+	&& wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
+	&& tar -xvzf spark-$SPARK_VERSION.tgz \
+	&& mv spark-$SPARK_VERSION spark \
+	&& rm spark-$SPARK_VERSION.tgz \
+	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn
 	&& cd / \
 	&& 	apt-get --purge remove -y wget && \
 	apt-get clean && \
@@ -58,8 +58,8 @@ ENV PYTHONHASHSEED 1
 # Set up environment variable
 ENV SPARK_HOME /spark
 COPY spark-env.sh /spark/conf/
+COPY spark-defaults.conf /spark/conf/
 COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
-ENV PATH $SPARK_HOME/bin:$PATH
 
 
 # Set up SSH

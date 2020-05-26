@@ -9,7 +9,7 @@ echo "export HIVE_HOME=$HIVE_HOME" >> "/root/.profile"
 echo "export HIVE_VERSION=$HIVE_VERSION" >> "/root/.profile"
 echo "export SPARK_HOME=$SPARK_HOME" >> "/root/.profile"
 echo "export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$LD_LIBRARY_PATH" >> "/root/.profile"
-
+echo "export PYSPARK_PYTHON=python3" >> "/root/.profile"
 
 # Link hive config to spark conf
 ln -s /opt/hive/conf/hive-site.xml /spark/conf/hive-site.xml
