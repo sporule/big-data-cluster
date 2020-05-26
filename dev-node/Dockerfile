@@ -60,7 +60,7 @@ ENV SPARK_HOME /spark
 COPY spark-env.sh /spark/conf/
 COPY spark-defaults.conf /spark/conf/
 COPY statsd-jvm-profiler-2.1.0.jar /statsd-jvm-profiler.jar
-
+ENV PATH $SPARK_HOME/bin:$PATH
 
 # Set up SSH
 COPY .ssh/ /root/.ssh/
