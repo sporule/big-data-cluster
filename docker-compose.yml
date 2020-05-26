@@ -69,7 +69,7 @@ services:
       - cluster
 
   dev-node01:
-    image: sporule/big-data-cluster:dev-node
+    image: 80c0b5157b8a
     mem_limit: 2048m
     container_name: dev-node01
     ports:

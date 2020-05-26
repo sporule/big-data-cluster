@@ -47,7 +47,7 @@ RUN apt-get install -y wget  \
 	&& tar -xvzf spark-$SPARK_VERSION.tgz \
 	&& mv spark-$SPARK_VERSION spark \
 	&& rm spark-$SPARK_VERSION.tgz \
-	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn
+	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn \
 	&& cd / \
 	&& 	apt-get --purge remove -y wget && \
 	apt-get clean && \
