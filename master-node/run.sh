@@ -85,8 +85,8 @@ check_precondition $HIVE_SERVER_PRECONDITION
 cd $HIVE_HOME/bin
 ./hiveserver2 --hiveconf hive.server2.enable.doAs=false &
 
-echo "starting spark web ui server"
-
+echo "starting spark history ui server"
+/spark/sbin/start-history-server.sh &
 
 echo "export PATH=$PATH" >> "/root/.profile"
 echo "export JAVA_HOME=$JAVA_HOME" >> "/root/.profile"
