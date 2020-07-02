@@ -17,6 +17,9 @@ ln -s /opt/hive/conf/hive-site.xml /spark/conf/hive-site.xml
 # Run Airflow if it is enabled
 if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
 
+# Run Jupyter Lab if it is enabled
+if [ "$JUPYTER" = "1" ]; then (jupyter lab --ip 0.0.0.0 --allow-root --NotebookApp.token=$JUPYTERTOKEN --port 8080 &) ; fi
+
 # Start SSH
 service ssh restart && bash
 

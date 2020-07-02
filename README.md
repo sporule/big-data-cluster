@@ -7,6 +7,51 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+### 02/07/2020
+
+- Changed Spark version to 2.4.5 as the old version raised build error due to the repo issue.
+- Changed the hadoop environment setting and cluster setting to align with machine with 32GB RAM.
+- Added Jupyter Lab with PySpark Support in dev nodes,you can now enable it by passing environment variable **JUPYTER=1**.  The default port 10110 is mapped to jupyter lab port 8080. The default token is sporule, you can change that in hadoop.env. Run findspark first before creating the spark context, examples below:
+
+```bash
+# In the docker-compose
+
+  dev-node01:
+    image: sporule/big-data-cluster:dev-node
+    mem_limit: 480m
+    container_name: dev-node01
+    restart: always 
+    ports:
+      - "10022:22"
+      - "10110:8080"
+    volumes:
+      - dev-node01_root:/root/
+    environment:
+        - AIRFLOW=0
+        - JUPYTER=1
+    env_file:
+      - ./hadoop.env
+    networks:
+      - cluster
+
+```
+
+
+```python
+
+# In the Jupyter Notebook
+
+import findspark
+findspark.init()
+
+from pyspark import SparkContext, SparkConf
+from pyspark.sql import SparkSession
+
+conf = SparkConf().setAppName('Ingestion')
+spark = SparkSession.builder.config(conf=conf).getOrCreate() # Spark session will be created in the kernel after this line
+
+```
+
 ### 24/04/2020
 
 - Updated default port from 8088 to 10086 to avoid scanning attack
@@ -29,6 +74,13 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 - Added Master Node and Worker Node with Hive
 
 ## Quick Start
+
+### Clone this Repo
+
+```bash
+git clone https://github.com/sporule/big-data-cluster
+cd big-data-cluster/
+```
 
 ### Run the whole cluster
 
@@ -63,13 +115,14 @@ You can run individual container by using Docker command, please find more infor
 | Apache Phoenix   | 5.0.0   |          |                   |
 | Apache Pig       | 0.16.0  |          |                   |
 | Apache Ranger    | 1.2.0   |          |                   |
-| Apache Spark     | 2.3.2   | Y        | Master, Dev       |
+| Apache Spark     | 2.4.5   | Y        | Master, Dev       |
 | Apache Sqoop     | 1.4.7   |          |                   |
 | Apache Storm     | 1.2.1   |          |                   |
 | Apache TEZ       | 0.9.1   |          |                   |
 | Apache Zeppelin  | 0.8.0   |          |                   |
 | Apache ZooKeeper | 3.4.6   | Y        | Master            |
-| Apache Airflow   | latest  | Y        | Master, Dev       |
+| Apache Airflow   | 1.10.10 | Y        | Master, Dev       |
+| Jupyter Lab      | 2.1.5   | Y        | Dev               |
 
 ### Containers in Docker-Compose
 

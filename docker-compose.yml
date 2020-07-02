@@ -5,6 +5,7 @@ services:
     image: bde2020/hive-metastore-postgresql:3.1.0
     mem_limit: 256m
     container_name: hive-postgresql
+    restart: always 
     ports:
       - 5432:5432
     volumes:
@@ -16,6 +17,7 @@ services:
     image: sporule/big-data-cluster:master-node
     mem_limit: 2048m
     container_name: master-node
+    restart: always 
     ports:
       - 9870:9870
       - 9000:9000
@@ -43,8 +45,9 @@ services:
 
   worker-node01:
     image: sporule/big-data-cluster:worker-node
-    mem_limit: 5000m
+    mem_limit: 6500m
     container_name: worker-node01
+    restart: always 
     ports:
       - 8042:8042
       - 9864:9864
@@ -57,8 +60,9 @@ services:
 
   worker-node02:
     image: sporule/big-data-cluster:worker-node
-    mem_limit: 5000m
+    mem_limit: 6500m
     container_name: worker-node02
+    restart: always 
     ports:
       - 8043:8042
       - 9865:9864
@@ -69,18 +73,102 @@ services:
     networks:
       - cluster
 
+  worker-node03:
+    image: sporule/big-data-cluster:worker-node
+    mem_limit: 6500m
+    container_name: worker-node03
+    restart: always 
+    ports:
+      - 8044:8042
+      - 9866:9864
+    volumes:
+      - worker-node03:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+    networks:
+      - cluster
+
+  worker-node04:
+    image: sporule/big-data-cluster:worker-node
+    mem_limit: 6500m
+    container_name: worker-node04
+    restart: always 
+    ports:
+      - 8045:8042
+      - 9867:9864
+    volumes:
+      - worker-node04:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+    networks:
+      - cluster
+
   dev-node01:
     image: sporule/big-data-cluster:dev-node
-    mem_limit: 2048m
+    mem_limit: 480m
     container_name: dev-node01
+    restart: always 
     ports:
       - "10022:22"
-      - 10080:8080
+      - "10110:8080"
     volumes:
       - dev-node01_root:/root/
-      - landing_zone:/landing_zone/
     environment:
         - AIRFLOW=0
+        - JUPYTER=0
+    env_file:
+      - ./hadoop.env
+    networks:
+      - cluster
+  
+  dev-node02:
+    image: sporule/big-data-cluster:dev-node
+    mem_limit: 480m
+    container_name: dev-node02
+    restart: always 
+    ports:
+      - "10023:22"
+      - "10111:8080"
+    volumes:
+      - dev-node02_root:/root/
+    environment:
+        - AIRFLOW=0
+        - JUPYTER=0
+    env_file:
+      - ./hadoop.env
+    networks:
+      - cluster
+
+  dev-node03:
+    image: sporule/big-data-cluster:dev-node
+    mem_limit: 480m
+    container_name: dev-node03
+    restart: always 
+    ports:
+      - "10024:22"
+      - "10112:8080"
+    volumes:
+      - dev-node03_root:/root/
+    environment:
+        - AIRFLOW=0
+        - JUPYTER=0
+    env_file:
+      - ./hadoop.env
+    networks:
+      - cluster
+  
+  dev-node04:
+    image: sporule/big-data-cluster:dev-node
+    mem_limit: 480m
+    container_name: dev-node04
+    ports:
+      - "10025:22"
+      - "10113:8080"
+    volumes:
+      - dev-node04_root:/root/
+    environment:
+        - AIRFLOW=0
+        - JUPYTER=1
     env_file:
       - ./hadoop.env
     networks:
@@ -92,9 +180,14 @@ volumes:
   hadoop_namenode:
   worker-node01:
   worker-node02:
+  worker-node03:
+  worker-node04:
   landing_zone:
-  dev-node01_root:
   hadoop_historyserver:
+  dev-node01_root:
+  dev-node02_root:
+  dev-node03_root:
+  dev-node04_root:
 networks:
   cluster:
     name: cluster

@@ -49,11 +49,14 @@ RUN apt-get install -y wget  \
 	&& rm spark-$SPARK_VERSION.tgz \
 	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn \
 	&& cd / \
-	&& 	apt-get --purge remove -y wget && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONHASHSEED 1
+
+# Set up Jupyter Lab
+
+RUN pip install jupyterlab;pip install findspark;
 
 # Set up environment variable
 ENV SPARK_HOME /spark
