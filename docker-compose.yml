@@ -113,6 +113,7 @@ services:
       - "10110:8080"
     volumes:
       - dev-node01_root:/root/
+      - share_folder:/root/share/
     environment:
         - AIRFLOW=0
         - JUPYTER=0
@@ -131,6 +132,7 @@ services:
       - "10111:8080"
     volumes:
       - dev-node02_root:/root/
+      - share_folder:/root/share/
     environment:
         - AIRFLOW=0
         - JUPYTER=0
@@ -149,6 +151,7 @@ services:
       - "10112:8080"
     volumes:
       - dev-node03_root:/root/
+      - share_folder:/root/share/
     environment:
         - AIRFLOW=0
         - JUPYTER=0
@@ -166,6 +169,7 @@ services:
       - "10113:8080"
     volumes:
       - dev-node04_root:/root/
+      - share_folder:/root/share/
     environment:
         - AIRFLOW=0
         - JUPYTER=1
@@ -188,6 +192,7 @@ volumes:
   dev-node02_root:
   dev-node03_root:
   dev-node04_root:
+  share_folder:
 networks:
   cluster:
     name: cluster
