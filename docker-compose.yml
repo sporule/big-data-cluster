@@ -164,6 +164,7 @@ services:
     image: sporule/big-data-cluster:dev-node
     mem_limit: 480m
     container_name: dev-node04
+    restart: always 
     ports:
       - "10025:22"
       - "10113:8080"
