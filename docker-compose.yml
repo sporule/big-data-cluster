@@ -116,7 +116,7 @@ services:
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
-        - JUPYTER=0
+        - JUPYTER=1
     env_file:
       - ./hadoop.env
     networks:
@@ -135,7 +135,7 @@ services:
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
-        - JUPYTER=0
+        - JUPYTER=1
     env_file:
       - ./hadoop.env
     networks:
@@ -154,7 +154,7 @@ services:
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
-        - JUPYTER=0
+        - JUPYTER=1
     env_file:
       - ./hadoop.env
     networks:
