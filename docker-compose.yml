@@ -111,11 +111,14 @@ services:
     ports:
       - "10022:22"
       - "10110:8080"
+      - "10201:8081"
+      - "10211:8082"
     volumes:
       - dev-node01_root:/root/
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
+        - NIFI=0
         - JUPYTER=1
     env_file:
       - ./hadoop.env
@@ -130,11 +133,14 @@ services:
     ports:
       - "10023:22"
       - "10111:8080"
+      - "10202:8081"
+      - "10212:8082"
     volumes:
       - dev-node02_root:/root/
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
+        - NIFI=0
         - JUPYTER=1
     env_file:
       - ./hadoop.env
@@ -149,11 +155,14 @@ services:
     ports:
       - "10024:22"
       - "10112:8080"
+      - "10203:8081"
+      - "10213:8082"
     volumes:
       - dev-node03_root:/root/
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
+        - NIFI=0
         - JUPYTER=1
     env_file:
       - ./hadoop.env
@@ -168,11 +177,14 @@ services:
     ports:
       - "10025:22"
       - "10113:8080"
+      - "10204:8081"
+      - "10214:8082"
     volumes:
       - dev-node04_root:/root/
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
+        - NIFI=0
         - JUPYTER=1
     env_file:
       - ./hadoop.env

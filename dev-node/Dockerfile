@@ -38,8 +38,23 @@ RUN apt-get install -y python3 python-dev python3-dev python3-venv\
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
 
+
+# Set up Apache Nifi
+
+ARG nifi_version=1.11.4
+ENV NIFI_VERSION=$nifi_version
+
+RUN wget http://apache.mirror.anlx.net/nifi/$NIFI_VERSION/nifi-$NIFI_VERSION-bin.tar.gz&& \
+	tar -xzvf nifi-$NIFI_VERSION-bin.tar.gz&& \
+	mv nifi-$NIFI_VERSION nifi&& \
+	sed -i 's/port=8080/port=8081/g' nifi/conf/nifi.properties&& \
+	nifi/bin/nifi.sh install&& \
+	rm nifi-$NIFI_VERSION-bin.tar.gz
+
+
+
 # Set up Spark
-ARG spark_version=2.4.5
+ARG spark_version=2.4.6
 ENV SPARK_VERSION=$spark_version
 
 RUN apt-get install -y wget  \

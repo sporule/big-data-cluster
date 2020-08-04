@@ -52,6 +52,12 @@ spark = SparkSession.builder.config(conf=conf).getOrCreate() # Spark session wil
 
 ```
 
+### 04/08/2020
+
+- Added NIFI in default port 8081
+- Moved Airflow port to 8082
+
+
 ### 24/04/2020
 
 - Updated default port from 8088 to 10086 to avoid scanning attack
@@ -98,40 +104,26 @@ You can run individual container by using Docker command, please find more infor
 
 ### Components
 
-| Components       | Version | Included | Container         |
-| ---------------- | ------- | -------- | ----------------- |
-| Apache Accumulo  | 1.7.0   |          |                   |
-| Apache Atlas     | 1.1.0   |          |                   |
-| Apache Calcite   | 1.16.0  |          |                   |
-| Apache DataFu    | 1.3.0   |          |                   |
-| Apache Druid     | 0.12.1  |          |                   |
-| Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev |
-| Apache HBase     | 2.0.2   |          |                   |
-| Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |
-| Apache Kafka     | 2.0.0   | Y        | Master            |
-| Apache Knox      | 1.0.0   |          |                   |
-| Apache Livy      | 0.5.0   |          |                   |
-| Apache Oozie     | 4.3.1   |          |                   |
-| Apache Phoenix   | 5.0.0   |          |                   |
-| Apache Pig       | 0.16.0  |          |                   |
-| Apache Ranger    | 1.2.0   |          |                   |
-| Apache Spark     | 2.4.5   | Y        | Master, Dev       |
-| Apache Sqoop     | 1.4.7   |          |                   |
-| Apache Storm     | 1.2.1   |          |                   |
-| Apache TEZ       | 0.9.1   |          |                   |
-| Apache Zeppelin  | 0.8.0   |          |                   |
-| Apache ZooKeeper | 3.4.6   | Y        | Master            |
-| Apache Airflow   | 1.10.10 | Y        | Master, Dev       |
-| Jupyter Lab      | 2.1.5   | Y        | Dev               |
+| Components       | Version | Included | Container         | Port                       |
+| ---------------- | ------- | -------- | ----------------- | -------------------------- |
+| Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10086, DateNode:9870 |
+| Apache HBase     | 2.0.2   |          |                   |                            |
+| Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                            |
+| Apache Kafka     | 2.0.0   | Y        | Master            |                            |
+| Apache Spark     | 2.4.6   | Y        | Master, Dev       | History Server:9999        |
+| Apache ZooKeeper | 3.4.6   | Y        | Master            |                            |
+| Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 8082                       |
+| Jupyter Lab      | 2.1.5   | Y        | Dev               | 8080                       |
+| Apache Nifi      | 1.1.4   | Y        | Dev               | 8081                       |
 
-### Containers in Docker-Compose
+### Containers in Docker-Compose by default
 
 | Nodes          | Amount |
 | -------------- | ------ |
 | Master         | 1      |
 | Worker         | 2      |
 | Hive-metastore | 1      |
-| Dev            | 1      |
+| Dev            | 4      |
 
 > You can flexibly change the amount of worker nodes and dev nodes, they will connect with master node automatically
 
@@ -170,3 +162,5 @@ You can turn on or off some applications by using environment variables, **0** m
 | Airflow   | AIRFLOW              | 0       |
 | Zookeeper | ZOOKEEPER            | 0       |
 | Kafka     | KAFKA                | 0       |
+| Nifi      | NIFI                 | 0       |
+| Jupyter   | NIFI                 | 1       |
