@@ -7,6 +7,14 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+
+
+### 04/08/2020
+
+- Upgraded Spark to 2.4.6 as the old version raised build error due to the repo issue
+- Added NIFI in default port 8081
+- Moved Airflow port to 8082
+
 ### 02/07/2020
 
 - Changed Spark version to 2.4.5 as the old version raised build error due to the repo issue.
@@ -52,10 +60,6 @@ spark = SparkSession.builder.config(conf=conf).getOrCreate() # Spark session wil
 
 ```
 
-### 04/08/2020
-
-- Added NIFI in default port 8081
-- Moved Airflow port to 8082
 
 
 ### 24/04/2020
