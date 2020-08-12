@@ -57,7 +57,7 @@ RUN mkdir -p /landing_zone
 
 
 # Set up Spark
-ARG spark_version=2.4.5
+ARG spark_version=2.4.6
 ENV SPARK_VERSION=$spark_version
 
 RUN wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
