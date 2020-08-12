@@ -11,7 +11,7 @@ ENV HIVE_HOME /opt/hive
 ENV PATH $HIVE_HOME/bin:$PATH
 
 WORKDIR /opt
-RUN apt-get update && apt-get install -y ssh wget procps vim git&& \
+RUN apt-get update && apt-get install -y ssh wget procps vim unzip git&& \
 	wget https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
@@ -57,8 +57,7 @@ RUN wget http://apache.mirror.anlx.net/nifi/$NIFI_VERSION/nifi-$NIFI_VERSION-bin
 ARG spark_version=2.4.6
 ENV SPARK_VERSION=$spark_version
 
-RUN apt-get install -y wget  \
-	&& wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
+RUN wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
 	&& tar -xvzf spark-$SPARK_VERSION.tgz \
 	&& mv spark-$SPARK_VERSION spark \
 	&& rm spark-$SPARK_VERSION.tgz \
@@ -68,6 +67,17 @@ RUN apt-get install -y wget  \
 	rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONHASHSEED 1
+
+# Set up Livy
+
+ARG livy_version=0.5.0
+ENV LIVY_VERSION=$livy_version
+
+RUN wget http://archive.apache.org/dist/incubator/livy/$LIVY_VERSION-incubating/livy-$LIVY_VERSION-incubating-bin.zip && \
+	unzip livy-$LIVY_VERSION-incubating-bin.zip && \
+	mv livy-$LIVY_VERSION-incubating-bin livy && \
+	rm livy-$LIVY_VERSION-incubating-bin.zip
+
 
 # Set up Jupyter Lab
 

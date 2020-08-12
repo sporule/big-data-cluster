@@ -24,6 +24,9 @@ if [ "$JUPYTER" = "1" ]; then (jupyter lab --ip 0.0.0.0 --allow-root --NotebookA
 # Run Jupyter Lab if it is enabled
 if [ "$NIFI" = "1" ]; then (service nifi start) ; fi
 
+# Run Livy  if it is enabled
+if [ "$LIVY" = "1" ]; then (/root/livy/bin/livy-server start) ; fi
+
 # Start SSH
 service ssh restart && bash
 

@@ -113,12 +113,14 @@ services:
       - "10110:8080"
       - "10201:8081"
       - "10211:8082"
+      - "10121:8998"
     volumes:
       - dev-node01_root:/root/
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
         - NIFI=0
+        - LIVY=0
         - JUPYTER=1
     env_file:
       - ./hadoop.env
@@ -135,56 +137,14 @@ services:
       - "10111:8080"
       - "10202:8081"
       - "10212:8082"
+      - "10122:8998"
     volumes:
       - dev-node02_root:/root/
       - share_folder:/root/share/
     environment:
         - AIRFLOW=0
         - NIFI=0
-        - JUPYTER=1
-    env_file:
-      - ./hadoop.env
-    networks:
-      - cluster
-
-  dev-node03:
-    image: sporule/big-data-cluster:dev-node
-    mem_limit: 480m
-    container_name: dev-node03
-    restart: always 
-    ports:
-      - "10024:22"
-      - "10112:8080"
-      - "10203:8081"
-      - "10213:8082"
-    volumes:
-      - dev-node03_root:/root/
-      - share_folder:/root/share/
-    environment:
-        - AIRFLOW=0
-        - NIFI=0
-        - JUPYTER=1
-    env_file:
-      - ./hadoop.env
-    networks:
-      - cluster
-  
-  dev-node04:
-    image: sporule/big-data-cluster:dev-node
-    mem_limit: 480m
-    container_name: dev-node04
-    restart: always 
-    ports:
-      - "10025:22"
-      - "10113:8080"
-      - "10204:8081"
-      - "10214:8082"
-    volumes:
-      - dev-node04_root:/root/
-      - share_folder:/root/share/
-    environment:
-        - AIRFLOW=0
-        - NIFI=0
+        - LIVY=0
         - JUPYTER=1
     env_file:
       - ./hadoop.env
@@ -203,8 +163,6 @@ volumes:
   hadoop_historyserver:
   dev-node01_root:
   dev-node02_root:
-  dev-node03_root:
-  dev-node04_root:
   share_folder:
 networks:
   cluster:

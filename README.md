@@ -7,7 +7,10 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+## 12/08/2020
 
+- Added Apache Livy with default port 8998 to dev-node
+- Reduce the dev-node amount from 4 to 2
 
 ### 04/08/2020
 
@@ -119,6 +122,7 @@ You can run individual container by using Docker command, please find more infor
 | Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 8082                       |
 | Jupyter Lab      | 2.1.5   | Y        | Dev               | 8080                       |
 | Apache Nifi      | 1.1.4   | Y        | Dev               | 8081                       |
+| Apache Livy      | 0.5.0   | Y        | Dev               | 8998                       |
 
 ### Containers in Docker-Compose by default
 
@@ -127,7 +131,7 @@ You can run individual container by using Docker command, please find more infor
 | Master         | 1      |
 | Worker         | 2      |
 | Hive-metastore | 1      |
-| Dev            | 4      |
+| Dev            | 2      |
 
 > You can flexibly change the amount of worker nodes and dev nodes, they will connect with master node automatically
 
@@ -168,3 +172,4 @@ You can turn on or off some applications by using environment variables, **0** m
 | Kafka     | KAFKA                | 0       |
 | Nifi      | NIFI                 | 0       |
 | Jupyter   | NIFI                 | 1       |
+| Livy      | LIVY                 | 0       |
