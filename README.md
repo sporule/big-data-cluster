@@ -12,6 +12,7 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 - Updated the configuration file to tune the performance
 - Added two environment variables relate to users in hadoop.env. You can use that to create users in dev-node with root and SSH login permission.
 - Move Airflow to Master with landing-folder shared in dev nodes.
+- Changed the default ports
 
 ## 12/08/2020
 
@@ -53,7 +54,6 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ```
 
-
 ```python
 
 # In the Jupyter Notebook
@@ -68,8 +68,6 @@ conf = SparkConf().setAppName('Ingestion')
 spark = SparkSession.builder.config(conf=conf).getOrCreate() # Spark session will be created in the kernel after this line
 
 ```
-
-
 
 ### 24/04/2020
 
@@ -117,18 +115,18 @@ You can run individual container by using Docker command, please find more infor
 
 ### Components
 
-| Components       | Version | Included | Container         | Port                       |
-| ---------------- | ------- | -------- | ----------------- | -------------------------- |
-| Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10086, DateNode:9870 |
-| Apache HBase     | 2.0.2   |          |                   |                            |
-| Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                            |
-| Apache Kafka     | 2.0.0   | Y        | Master            |                            |
-| Apache Spark     | 2.4.6   | Y        | Master, Dev       | History Server:9999        |
-| Apache ZooKeeper | 3.4.6   | Y        | Master            |                            |
-| Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 8082                       |
-| Jupyter Lab      | 2.1.5   | Y        | Dev               | 8080                       |
-| Apache Nifi      | 1.1.4   | Y        | Dev               | 8081                       |
-| Apache Livy      | 0.5.0   | Y        | Dev               | 8998                       |
+| Components       | Version | Included | Container         | Port (external:internal)               |
+| ---------------- | ------- | -------- | ----------------- | -------------------------------------- |
+| Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10001:10086, DateNode:10000:9870 |
+| Apache HBase     | 2.0.2   |          |                   |                                        |
+| Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                                        |
+| Apache Kafka     | 2.0.0   | Y        | Master            |                                        |
+| Apache Spark     | 2.4.6   | Y        | Master, Dev       | History Server:10002:9999              |
+| Apache ZooKeeper | 3.4.6   | Y        | Master            |                                        |
+| Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 10003:8083                             |
+| Jupyter Lab      | 2.1.5   | Y        | Dev               | 10010:8080                             |
+| Apache Nifi      | 1.1.4   | Y        | Dev               | 10011:8081                             |
+| Apache Livy      | 0.5.0   | Y        | Dev               | 10014:8998                             |
 
 ### Containers in Docker-Compose by default
 

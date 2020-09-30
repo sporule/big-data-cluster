@@ -27,9 +27,6 @@ if [ "$NIFI" = "1" ]; then (service nifi start) ; fi
 # Run Livy  if it is enabled
 if [ "$LIVY" = "1" ]; then (/livy/bin/livy-server start) ; fi
 
-# Add Spark Logs folder
-hadoop fs -mkdir /spark-logs &
-
 
 # Add Users
 
@@ -38,7 +35,7 @@ function add_users(){
   do
         adduser $name --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password --force-badname
         echo "$name:$USERS_PASSWORD" | chpasswd
-        usermod -a -G root $name
+        usermod -aG sudo $name
   done
 }
 
