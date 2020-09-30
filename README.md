@@ -7,6 +7,12 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+## 30/09/2020
+
+- Updated the configuration file to tune the performance
+- Added two environment variables relate to users in hadoop.env. You can use that to create users in dev-node with root and SSH login permission.
+- Move Airflow to Master with landing-folder shared in dev nodes.
+
 ## 12/08/2020
 
 - Added Apache Livy with default port 8998 to dev-node
@@ -86,7 +92,7 @@ spark = SparkSession.builder.config(conf=conf).getOrCreate() # Spark session wil
 
 - Added Master Node and Worker Node with Hive
 
-## Quick Start
+## Quick Start Guide
 
 ### Clone this Repo
 
@@ -131,13 +137,14 @@ You can run individual container by using Docker command, please find more infor
 | Master         | 1      |
 | Worker         | 2      |
 | Hive-metastore | 1      |
-| Dev            | 2      |
+| Dev            | 1      |
 
 > You can flexibly change the amount of worker nodes and dev nodes, they will connect with master node automatically
 
 ## Configurations
 
 ### Hadoop and Hive Basic Configuration 
+
 The configuration parameters can be specified in the **hadoop.env** file or as environmental variables for specific services (e.g. master-node, worker-node etc.):
 ```
   CORE_CONF_fs_defaultFS=hdfs://master-node:8020
@@ -160,7 +167,16 @@ The available configurations are:
 * /etc/hadoop/kms-site.xml KMS_CONF
 * /etc/hadoop/mapred-site.xml  MAPRED_CONF
 * /opt/hive/conf/hive-site.xml HIVE_SITE_CONF
-  
+
+
+
+### User Configuration 
+
+In **hadoop.env**, you can find a variable call USERS. This is the place for you to enter your usernames which will be created in dev-nodes.
+You can also set default password in the variable USERS_PASSWORD.
+
+
+
 ### Application On or Off Configuration
 
 You can turn on or off some applications by using environment variables, **0** means on and **1** means off. You can update the environment variable in the **hadoop.env** file or inject it while starting the containers (through Docker command or docker-compose.yml). However, it is good to note that **hadoop.env** will have lower priority. current supported applications are:

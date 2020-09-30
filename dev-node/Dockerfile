@@ -93,6 +93,7 @@ ENV PATH $SPARK_HOME/bin:$PATH
 # Set up SSH
 COPY .ssh/ /root/.ssh/
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
 # Set up initial folder
 WORKDIR /root

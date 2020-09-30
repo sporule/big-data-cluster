@@ -111,7 +111,7 @@ echo "export PYSPARK_PYTHON=python3" >> "/root/.profile"
 ln -s /opt/hive/conf/hive-site.xml /spark/conf/hive-site.xml
 
 # # Run Airflow if it is enabled
-if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8080 &) ;(airflow scheduler &); fi
+if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8083 &) ;(airflow scheduler &); fi
 
 echo "starting zookeeper"
 # Run ZooKeeper if it is enabled
@@ -120,5 +120,7 @@ if [ "$ZOOKEEPER" = "1" ]; then (/zookeeper/bin/zkServer.sh start &) ; fi
 echo "starting kafka"
 # Run Kafka if it is enabled
 if [ "$KAFKA" = "1" ]; then check_precondition $KAFKA_PRECONDITION ; (/kafka/bin/kafka-server-start.sh /kafka/config/server.properties &) ; fi
+
+hadoop fs -copyFromLocal /spark/dist/jars / &
 
 tail -f /dev/null
