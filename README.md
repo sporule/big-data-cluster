@@ -9,7 +9,7 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## 01/10/2020
 
-- Replaced Jupyter Lab with Jupyter Hub, you can login by using the linux credential.
+- Replaced Jupyter Lab with Jupyter Hub, you can login by using the linux credential in hadoop.env.
 
 ## 30/09/2020
 
