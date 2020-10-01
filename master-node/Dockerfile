@@ -104,6 +104,7 @@ RUN wget https://archive.apache.org/dist/kafka/$KAFKA_VERSION/kafka_2.12-$KAFKA_
 RUN	apt-get --purge remove -y wget && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
+
 # Expose ports
 EXPOSE 8188
 EXPOSE 9000

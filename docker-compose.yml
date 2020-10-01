@@ -75,6 +75,7 @@ services:
       
     volumes:
       - dev-node01_root:/root/
+      - dev-node01_home:/home/
       - share_folder:/root/share/
       - landing_zone:/root/landing_zone
     environment:
@@ -96,6 +97,7 @@ volumes:
   landing_zone:
   hadoop_historyserver:
   dev-node01_root:
+  dev-node01_home:
   share_folder:
 networks:
   cluster:

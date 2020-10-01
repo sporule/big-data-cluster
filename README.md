@@ -7,6 +7,10 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+## 01/10/2020
+
+- Replaced Jupyter Lab with Jupyter Hub, you can login by using the linux credential.
+
 ## 30/09/2020
 
 - Updated the configuration file to tune the performance
@@ -118,13 +122,12 @@ You can run individual container by using Docker command, please find more infor
 | Components       | Version | Included | Container         | Port (external:internal)               |
 | ---------------- | ------- | -------- | ----------------- | -------------------------------------- |
 | Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10001:10086, DateNode:10000:9870 |
-| Apache HBase     | 2.0.2   |          |                   |                                        |
 | Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                                        |
 | Apache Kafka     | 2.0.0   | Y        | Master            |                                        |
 | Apache Spark     | 2.4.6   | Y        | Master, Dev       | History Server:10002:9999              |
 | Apache ZooKeeper | 3.4.6   | Y        | Master            |                                        |
 | Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 10003:8083                             |
-| Jupyter Lab      | 2.1.5   | Y        | Dev               | 10010:8080                             |
+| Jupyter Hub      | 1.1.0   | Y        | Dev               | 10010:8080                             |
 | Apache Nifi      | 1.1.4   | Y        | Dev               | 10011:8081                             |
 | Apache Livy      | 0.5.0   | Y        | Dev               | 10014:8998                             |
 

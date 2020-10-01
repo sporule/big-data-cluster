@@ -15,19 +15,6 @@ echo "export PYTHONIOENCODING=utf8" >> "/etc/profile"
 # Link hive config to spark conf
 ln -s /opt/hive/conf/hive-site.xml /spark/conf/hive-site.xml
 
-# Run Airflow if it is enabled
-if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8083 &) ;(airflow scheduler &); fi
-
-# Run Jupyter Lab if it is enabled
-if [ "$JUPYTER" = "1" ]; then (jupyter lab --ip 0.0.0.0 --allow-root --NotebookApp.token=$JUPYTERTOKEN --port 8080 &) ; fi
-
-# Run Jupyter Lab if it is enabled
-if [ "$NIFI" = "1" ]; then (service nifi start) ; fi
-
-# Run Livy  if it is enabled
-if [ "$LIVY" = "1" ]; then (/livy/bin/livy-server start) ; fi
-
-
 # Add Users
 
 function add_users(){
@@ -40,6 +27,19 @@ function add_users(){
 }
 
 add_users &
+
+# Run Airflow if it is enabled
+if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8083 &) ;(airflow scheduler &); fi
+
+# Run Jupyter Lab if it is enabled
+if [ "$JUPYTER" = "1" ]; then (jupyterhub --port=8080 &) ; fi
+
+# Run Jupyter Lab if it is enabled
+if [ "$NIFI" = "1" ]; then (service nifi start) ; fi
+
+# Run Livy  if it is enabled
+if [ "$LIVY" = "1" ]; then (/livy/bin/livy-server start) ; fi
+
 
 
 # Start SSH

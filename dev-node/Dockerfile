@@ -11,7 +11,7 @@ ENV HIVE_HOME /opt/hive
 ENV PATH $HIVE_HOME/bin:$PATH
 
 WORKDIR /opt
-RUN apt-get update && apt-get install -y ssh wget procps vim unzip git&& \
+RUN apt-get update && apt-get install -y ssh wget procps vim unzip git nodejs&& \
 	wget https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
@@ -62,9 +62,7 @@ RUN wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSIO
 	&& mv spark-$SPARK_VERSION spark \
 	&& rm spark-$SPARK_VERSION.tgz \
 	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn \
-	&& cd / \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+	&& cd / 
 
 ENV PYTHONHASHSEED 1
 
@@ -79,9 +77,18 @@ RUN wget http://archive.apache.org/dist/incubator/livy/$LIVY_VERSION-incubating/
 	rm livy-$LIVY_VERSION-incubating-bin.zip
 
 
-# Set up Jupyter Lab
+# Set up Jupyter Hub
 
-RUN pip install jupyterlab;pip install findspark;
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
+	&& pip install jupyterhub \
+	&& npm install -g configurable-http-proxy
+
+
+# Clean Package Management Archive
+
+RUN apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 # Set up environment variable
 ENV SPARK_HOME /spark
