@@ -60,7 +60,7 @@ RUN mkdir -p /landing_zone
 ARG spark_version=2.4.6
 ENV SPARK_VERSION=$spark_version
 
-RUN wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
+RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
 	&& tar -xvzf spark-$SPARK_VERSION.tgz \
 	&& mv spark-$SPARK_VERSION spark \
 	&& rm spark-$SPARK_VERSION.tgz \

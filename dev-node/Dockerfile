@@ -35,6 +35,20 @@ RUN apt-get install -y python3 python-dev python3-dev python3-venv\
 	libxml2-dev libxslt1-dev zlib1g-dev \
 	python-pip python3-pip
 
+
+# Set up Spark
+ARG spark_version=2.4.6
+ENV SPARK_VERSION=$spark_version
+RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
+	&& tar -xvzf spark-$SPARK_VERSION.tgz \
+	&& mv spark-$SPARK_VERSION spark \
+	&& rm spark-$SPARK_VERSION.tgz \
+	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn \
+	&& cd / 
+
+ENV PYTHONHASHSEED 1
+
+
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
 
@@ -50,21 +64,6 @@ RUN wget https://archive.apache.org/dist/nifi/$NIFI_VERSION/nifi-$NIFI_VERSION-b
 	sed -i 's/port=8080/port=8081/g' nifi/conf/nifi.properties&& \
 	nifi/bin/nifi.sh install&& \
 	rm nifi-$NIFI_VERSION-bin.tar.gz
-
-
-
-# Set up Spark
-ARG spark_version=2.4.6
-ENV SPARK_VERSION=$spark_version
-
-RUN wget http://mirror.ox.ac.uk/sites/rsync.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
-	&& tar -xvzf spark-$SPARK_VERSION.tgz \
-	&& mv spark-$SPARK_VERSION spark \
-	&& rm spark-$SPARK_VERSION.tgz \
-	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn \
-	&& cd / 
-
-ENV PYTHONHASHSEED 1
 
 # Set up Livy
 
