@@ -12,6 +12,8 @@ echo "export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$LD_LIBRARY_PATH" >> "/etc/
 echo "export PYSPARK_PYTHON=python3" >> "/etc/profile"
 echo "export PYTHONIOENCODING=utf8" >> "/etc/profile"
 
+
+
 # Link hive config to spark conf
 ln -s /opt/hive/conf/hive-site.xml /spark/conf/hive-site.xml
 
@@ -28,13 +30,14 @@ function add_users(){
 
 add_users &
 
+
 # Run Airflow if it is enabled
 if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8083 &) ;(airflow scheduler &); fi
 
-# Run Jupyter Lab if it is enabled
+# Run Jupyter Hub if it is enabled
 if [ "$JUPYTER" = "1" ]; then (jupyterhub --port=8080 &) ; fi
 
-# Run Jupyter Lab if it is enabled
+# Run NIFI if it is enabled
 if [ "$NIFI" = "1" ]; then (service nifi start) ; fi
 
 # Run Livy  if it is enabled

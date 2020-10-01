@@ -75,13 +75,17 @@ RUN wget http://archive.apache.org/dist/incubator/livy/$LIVY_VERSION-incubating/
 	mv livy-$LIVY_VERSION-incubating-bin livy && \
 	rm livy-$LIVY_VERSION-incubating-bin.zip
 
+# Set up root folder
+WORKDIR /root
 
 # Set up Jupyter Hub
 
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get install -y nodejs \
-	&& pip install jupyterhub \
-	&& npm install -g configurable-http-proxy
+	&& pip install jupyterhub notebook findspark\
+	&& npm install -g configurable-http-proxy \
+	&& yes | jupyterhub --generate-config \
+	&& echo "c.LocalProcessSpawner.shell_cmd = ['bash', '-l', '-c']" >> "/root/jupyterhub_config.py"
 
 
 # Clean Package Management Archive
@@ -101,8 +105,6 @@ COPY .ssh/ /root/.ssh/
 RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
-# Set up initial folder
-WORKDIR /root
 
 # Expose SSH Port and Airflow Port
 EXPOSE 22

@@ -63,7 +63,7 @@ services:
 
   dev-node01:
     image: sporule/big-data-cluster:dev-node
-    mem_limit: 1024m
+    mem_limit: 2048m
     container_name: dev-node01
     restart: always 
     ports:
