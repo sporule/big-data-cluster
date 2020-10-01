@@ -1,4 +1,4 @@
-FROM debian:9
+FROM debian:10
 
 
 LABEL  credit="https://github.com/big-data-europe/docker-hadoop"
@@ -8,7 +8,7 @@ LABEL  maintainer = "Sporule <hao@sporule.com>"
 ARG hadoop_version=3.1.1
 
 # Set Environment Variables
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 ENV HADOOP_VERSION=$hadoop_version
 ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
@@ -19,12 +19,12 @@ ENV PATH $HADOOP_HOME/bin/:$PATH
 
 # Install build dependencies
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    openjdk-8-jdk \
+    openjdk-11-jdk \
     net-tools \
     curl \
     netcat \
     gnupg \
-    python3 \
+    python3 python3-distutils python3-apt\
     && rm -rf /var/lib/apt/lists/*
 
 # Install Pip
