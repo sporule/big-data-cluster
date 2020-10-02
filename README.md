@@ -5,11 +5,19 @@ This is the Hadoop image based on the [BDE's Hadoop Base](https://github.com/big
 This docker image is for development purpose, you should not use it for production without updating the configuration. I have modified some images and added some new features. 
 You may find more information on [Sporule Blog](https://www.sporule.com) .
 
+This project is in github : [sporule/big-data-cluster](https://github.com/sporule/big-data-cluster).
+You can also find it from docker hub: [sporule/big-data-cluster](https://hub.docker.com/repository/docker/sporule/big-data-cluster/general).
+
 ## Changes
 
 ## 02/10/2020
 
 - Upgraded to Debian 10
+- Upgraded to OpenJDK 11
+- Upgraded to Python 3.7.3
+- Upgraded to Hadoop 3.3.0
+- Upgraded to Hive 3.1.2
+- Upgrade to Spark 3.0.1
 
 ## 01/10/2020
 
@@ -125,6 +133,7 @@ You can run individual container by using Docker command, please find more infor
 
 | Components       | Version | Included | Container         | Port (external:internal)               |
 | ---------------- | ------- | -------- | ----------------- | -------------------------------------- |
+| Python           | 3.7.3   | Y        | Master,Worker,Dev |                                        |
 | Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10001:10086, DateNode:10000:9870 |
 | Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                                        |
 | Apache Kafka     | 2.0.0   | Y        | Master            |                                        |

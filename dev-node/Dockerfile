@@ -1,4 +1,4 @@
-FROM sporule/big-data-cluster:hadoop-base-3.1.1
+FROM sporule/big-data-cluster:hadoop-base
 
 
 LABEL  credit="https://github.com/big-data-europe/docker-hadoop"
@@ -36,15 +36,15 @@ RUN apt-get install -y python-dev python3-dev python3-venv\
 	python-pip python3-pip
 
 
+
 # Set up Spark
-ARG spark_version=2.4.7
+ARG spark_version=3.0.1
 ENV SPARK_VERSION=$spark_version
-RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
-	&& tar -xvzf spark-$SPARK_VERSION.tgz \
-	&& mv spark-$SPARK_VERSION spark \
-	&& rm spark-$SPARK_VERSION.tgz \
-	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn \
-	&& cd / 
+
+RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
+	&& tar -xvzf spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
+	&& mv spark-$SPARK_VERSION-bin-hadoop3.2 spark \
+	&& rm spark-$SPARK_VERSION-bin-hadoop3.2.tgz
 
 ENV PYTHONHASHSEED 1
 

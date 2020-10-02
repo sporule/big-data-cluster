@@ -1,4 +1,4 @@
-FROM sporule/big-data-cluster:hadoop-base-3.1.1
+FROM sporule/big-data-cluster:hadoop-base
 
 
 LABEL  credit="https://github.com/big-data-europe/docker-hadoop"
@@ -6,7 +6,7 @@ LABEL  maintainer = "Sporule <hao@sporule.com>"
 
 # Set up environment variables
 
-ARG hive_version=3.1.0
+ARG hive_version=3.1.2
 ENV HIVE_VERSION=$hive_version
 ENV HIVE_HOME /opt/hive
 ENV PATH $HIVE_HOME/bin:$PATH
@@ -32,7 +32,9 @@ RUN apt-get update && apt-get install -y wget procps && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
 	wget https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar -O $HIVE_HOME/lib/postgresql-jdbc.jar && \
-	rm apache-hive-$HIVE_VERSION-bin.tar.gz
+	rm apache-hive-$HIVE_VERSION-bin.tar.gz \
+	&& rm /opt/hive/lib/guava-19.0.jar \
+	&& cp $HADOOP_HOME/share/hadoop/hdfs/lib/guava-27.0-jre.jar /opt/hive/lib
 
 ADD hive-conf/hive-site.xml $HIVE_HOME/conf
 ADD hive-conf/beeline-log4j2.properties $HIVE_HOME/conf
@@ -58,14 +60,13 @@ RUN export AIRFLOW_HOME=/root/airflow \
 
 
 # Set up Spark
-ARG spark_version=2.4.7
+ARG spark_version=3.0.1
 ENV SPARK_VERSION=$spark_version
 
-RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
-	&& tar -xvzf spark-$SPARK_VERSION.tgz \
-	&& mv spark-$SPARK_VERSION spark \
-	&& rm spark-$SPARK_VERSION.tgz \
-	&& ./spark/dev/make-distribution.sh --name spark-hive --tgz -Phive -Phive-thriftserver -Pyarn
+RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
+	&& tar -xvzf spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
+	&& mv spark-$SPARK_VERSION-bin-hadoop3.2 spark \
+	&& rm spark-$SPARK_VERSION-bin-hadoop3.2.tgz
 
 
 ENV PYTHONHASHSEED 1

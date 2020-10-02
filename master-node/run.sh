@@ -89,8 +89,7 @@ check_precondition $HIVE_METASTORE_PRECONDITION
 
 echo "starting hive server 2"
 check_precondition $HIVE_SERVER_PRECONDITION
-cd $HIVE_HOME/bin
-./hiveserver2 --hiveconf hive.server2.enable.doAs=false &
+/opt/hive/bin/hiveserver2 --hiveconf hive.server2.enable.doAs=false &
 
 echo "starting spark history ui server"
 /spark/sbin/start-history-server.sh &
@@ -121,6 +120,6 @@ echo "starting kafka"
 # Run Kafka if it is enabled
 if [ "$KAFKA" = "1" ]; then check_precondition $KAFKA_PRECONDITION ; (/kafka/bin/kafka-server-start.sh /kafka/config/server.properties &) ; fi
 
-hadoop fs -copyFromLocal /spark/dist/jars / &
+hadoop fs -copyFromLocal /spark/jars / &
 
 tail -f /dev/null

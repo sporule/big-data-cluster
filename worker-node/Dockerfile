@@ -1,4 +1,4 @@
-FROM sporule/big-data-cluster:hadoop-base-3.1.1
+FROM sporule/big-data-cluster:hadoop-base
 
 
 LABEL  credit="https://github.com/big-data-europe/docker-hadoop"
