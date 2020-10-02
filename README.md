@@ -7,6 +7,11 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## Changes
 
+## 02/10/2020
+
+- Upgraded OpenJDK to 11
+- Upgraded Spark to 3.0.1
+
 ## 01/10/2020
 
 - Replaced Jupyter Lab with Jupyter Hub, you can login by using the linux credential in hadoop.env.
@@ -124,7 +129,7 @@ You can run individual container by using Docker command, please find more infor
 | Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10001:10086, DateNode:10000:9870 |
 | Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                                        |
 | Apache Kafka     | 2.0.0   | Y        | Master            |                                        |
-| Apache Spark     | 2.4.6   | Y        | Master, Dev       | History Server:10002:9999              |
+| Apache Spark     | 3.0.1   | Y        | Master, Dev       | History Server:10002:9999              |
 | Apache ZooKeeper | 3.4.6   | Y        | Master            |                                        |
 | Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 10003:8083                             |
 | Jupyter Hub      | 1.1.0   | Y        | Dev               | 10010:8080                             |

@@ -30,14 +30,14 @@ ADD hive-conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 # Install Python3 Build Environment
 
 WORKDIR /
-RUN apt-get install -y python3 python-dev python3-dev python3-venv\
+RUN apt-get install -y python-dev python3-dev python3-venv\
 	build-essential libssl-dev libffi-dev \
 	libxml2-dev libxslt1-dev zlib1g-dev \
 	python-pip python3-pip
 
 
 # Set up Spark
-ARG spark_version=2.4.6
+ARG spark_version=3.0.1
 ENV SPARK_VERSION=$spark_version
 RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz \
 	&& tar -xvzf spark-$SPARK_VERSION.tgz \
