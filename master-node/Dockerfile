@@ -52,8 +52,9 @@ RUN apt-get install -y python-dev python3-dev \
 	python-pip python3-pip
 
 # Set up Airflow
-RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
-RUN mkdir -p /landing_zone
+RUN export AIRFLOW_HOME=/root/airflow \
+	&& pip install apache-airflow \
+	&& mkdir -p /landing_zone
 
 
 # Set up Spark

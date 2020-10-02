@@ -50,7 +50,9 @@ ENV PYTHONHASHSEED 1
 
 
 # Set up Airflow
-RUN export AIRFLOW_HOME=/root/airflow; pip install apache-airflow ; fi
+RUN export AIRFLOW_HOME=/root/airflow \
+	&& pip install apache-airflow \
+	&& mkdir -p /landing_zone
 
 
 # Set up Apache Nifi
