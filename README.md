@@ -9,7 +9,7 @@ You may find more information on [Sporule Blog](https://www.sporule.com) .
 
 ## 02/10/2020
 
-- Upgraded OpenJDK to 11
+- Upgraded to Debian 10
 - Upgraded Spark to 3.0.1
 
 ## 01/10/2020
