@@ -134,8 +134,8 @@ You can run individual container by using Docker command, please find more infor
 | Components       | Version | Included | Container         | Port (external:internal)               |
 | ---------------- | ------- | -------- | ----------------- | -------------------------------------- |
 | Python           | 3.7.3   | Y        | Master,Worker,Dev |                                        |
-| Apache Hadoop    | 3.1.1   | Y        | Master,Worker,Dev | Yarn: 10001:10086, DateNode:10000:9870 |
-| Apache Hive      | 3.1.0   | Y        | Master,Worker,Dev |                                        |
+| Apache Hadoop    | 3.3.0   | Y        | Master,Worker,Dev | Yarn: 10001:10086, DateNode:10000:9870 |
+| Apache Hive      | 3.1.2  | Y        | Master,Worker,Dev |                                        |
 | Apache Kafka     | 2.0.0   | Y        | Master            |                                        |
 | Apache Spark     | 3.0.1   | Y        | Master, Dev       | History Server:10002:9999              |
 | Apache ZooKeeper | 3.4.6   | Y        | Master            |                                        |
