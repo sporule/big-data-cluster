@@ -8,7 +8,7 @@ LABEL  maintainer = "Sporule <hao@sporule.com>"
 ARG hadoop_version=3.1.1
 
 # Set Environment Variables
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+ENV JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/
 ENV HADOOP_VERSION=$hadoop_version
 ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
@@ -19,13 +19,20 @@ ENV PATH $HADOOP_HOME/bin/:$PATH
 
 # Install build dependencies
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    openjdk-11-jdk \
+    software-properties-common\
     net-tools \
-    curl \
+    curl wget\
     netcat \
     gnupg \
-    python3 python3-distutils python3-apt\
-    && rm -rf /var/lib/apt/lists/*
+    python3 python3-distutils python3-apt
+
+RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
+    && add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
+    && apt-get update && apt-get -y install adoptopenjdk-8-hotspot
+
+# Clean Package Management Archive
+RUN apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 # Install Pip
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
