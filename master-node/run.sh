@@ -55,10 +55,10 @@ function check_precondition(){
 
 
 
-echo "starting namenode"
-(while true; do 
-    $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode 
-done) &
+# echo "starting namenode"
+# (while true; do 
+#     $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR namenode 
+# done) &
 
 echo "starting resource manager (yarn)"
 (while true; do 
