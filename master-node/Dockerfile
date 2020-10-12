@@ -66,7 +66,9 @@ ENV SPARK_VERSION=$spark_version
 RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
 	&& tar -xvzf spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
 	&& mv spark-$SPARK_VERSION-bin-hadoop3.2 spark \
-	&& rm spark-$SPARK_VERSION-bin-hadoop3.2.tgz
+	&& rm spark-$SPARK_VERSION-bin-hadoop3.2.tgz \
+	&& wget https://jdbc.postgresql.org/download/postgresql-42.2.17.jar -P /spark/jars/ \
+	&& wget https://search.maven.org/remotecontent?filepath=org/mongodb/spark/mongo-spark-connector_2.12/3.0.0/mongo-spark-connector_2.12-3.0.0.jar -O /spark/jars/mongo-spark-connector_2.12-3.0.0.jar
 
 
 ENV PYTHONHASHSEED 1
