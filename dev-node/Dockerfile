@@ -110,10 +110,6 @@ RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
 
-# Expose SSH Port and Airflow Port
-EXPOSE 22
-EXPOSE 8080
-
 # Set up Configuration and Start Services
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh

@@ -24,7 +24,6 @@ function add_users(){
   do
         adduser $name --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password --force-badname
         echo "$name:$USERS_PASSWORD" | chpasswd
-        usermod -aG sudo $name
   done
 }
 
