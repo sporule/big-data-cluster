@@ -27,7 +27,7 @@ VOLUME /hadoop/yarn/timeline
 
 # Set up Hive
 WORKDIR /opt
-RUN apt-get update && apt-get install -y wget procps && \
+RUN apt-get update && apt-get install -y wget vim procps && \
 	wget https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
