@@ -22,8 +22,13 @@ ln -s /opt/hive/conf/hive-site.xml /spark/conf/hive-site.xml
 function add_users(){
   for name in ${USERS[@]}
   do
-        adduser $name --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password --force-badname
-        echo "$name:$USERS_PASSWORD" | chpasswd
+        if grep -q "^$name:" /etc/passwd ; then
+          echo "$name exists"
+        else
+          adduser $name --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password --force-badname
+          echo "$name:$USERS_PASSWORD" | chpasswd
+          echo "$name created"
+        fi
   done
 }
 
@@ -31,7 +36,7 @@ add_users &
 
 
 # Run Airflow if it is enabled
-if [ "$AIRFLOW" = "1" ]; then airflow initdb; (airflow webserver -p 8083 &) ;(airflow scheduler &); fi
+if [ "$AIRFLOW" = "1" ]; then airflow db init; sleep 10; (airflow webserver -p 8083 -D) ;sleep 5;(airflow scheduler -D); fi
 
 # Run Jupyter Hub if it is enabled
 if [ "$JUPYTER" = "1" ]; then (jupyterhub --port=8080 &) ; fi
