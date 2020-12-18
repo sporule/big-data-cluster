@@ -139,7 +139,7 @@ You can run individual container by using Docker command, please find more infor
 | Apache Kafka     | 2.0.0   | Y        | Master            |                                        |
 | Apache Spark     | 3.0.1   | Y        | Master, Dev       | History Server:10002:9999              |
 | Apache ZooKeeper | 3.4.6   | Y        | Master            |                                        |
-| Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 10003:8083                             |
+| Apache Airflow   | 1.10.10 | Y        | Master, Dev       | 10003:8083, username/password:sporule                             |
 | Jupyter Hub      | 1.1.0   | Y        | Dev               | 10010:8080                             |
 | Apache Nifi      | 1.1.4   | Y        | Dev               | 10011:8081                             |
 | Apache Livy      | 0.5.0   | Y        | Dev               | 10014:8998                             |
