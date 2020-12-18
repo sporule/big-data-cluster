@@ -118,7 +118,7 @@ echo "starting kafka"
 if [ "$KAFKA" = "1" ]; then check_precondition $KAFKA_PRECONDITION ; (/kafka/bin/kafka-server-start.sh /kafka/config/server.properties &) ; fi
 
 # # Run Airflow if it is enabled
-if [ "$AIRFLOW" = "1" ]; then airflow db init; sleep 5; (airflow webserver -p 8083 &) ;(airflow scheduler &); fi
+if [ "$AIRFLOW" = "1" ]; then airflow db init; sleep 10; (airflow webserver -p 8083 -D &) ;sleep 5;(airflow scheduler -D &); fi
 
 hadoop fs -copyFromLocal /spark/jars / &
 
