@@ -50,6 +50,9 @@ RUN wget https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK
 
 ENV PYTHONHASHSEED 1
 
+# Set up PYSPARK library
+RUN pip install pyspark
+	
 
 # Set up Airflow
 RUN export AIRFLOW_HOME=/root/airflow \
