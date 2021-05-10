@@ -11,7 +11,7 @@ ENV HIVE_HOME /opt/hive
 ENV PATH $HIVE_HOME/bin:$PATH
 
 WORKDIR /opt
-RUN apt-get update && apt-get install -y ssh wget procps vim unzip git nodejs&& \
+RUN apt-get update && apt-get install -y ssh wget procps vim unzip zip git nodejs&& \
 	wget https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	tar -xzvf apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	mv apache-hive-$HIVE_VERSION-bin hive && \
