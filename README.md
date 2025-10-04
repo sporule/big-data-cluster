@@ -1,5 +1,8 @@
 # Big Data Cluster
 
+
+**Please ensure you are working on the old version of Hadoop, otherwise it won't work**
+
 This is the Hadoop image based on the [BDE's Hadoop Base](https://github.com/big-data-europe/docker-hadoop) and its relevant forks.
 
 This docker image is for development purpose, you should not use it for production without updating the configuration. I have modified some images and added some new features. 
